@@ -12,7 +12,14 @@ export class GifsService {
 
   public resultados: Gif[] = [];
 
-  constructor(private http: HttpClient) { }
+  // Como el constructor de angular funciona como un singleton aqui es donde se deben obtener parametros
+  // del localStorage ya que se ejecuta solo una vez
+  constructor(private http: HttpClient) {
+    // Para poder guardar el elemento obtenido del localStorage hay que parsearlo
+    // Con ! le estamos diciendo a angular que el getItem no nos retornara null nunca
+    // Otra forma de hacerlo es con ?? para en caso de que sea null ponerle string vacio
+    this._historial = JSON.parse(localStorage.getItem('historial')!) ?? [];
+  }
 
   get historial() {
     return [...this._historial];
@@ -26,6 +33,8 @@ export class GifsService {
     if (query.trim().length !== 0 && !this.historial.includes(query)) {
       this._historial.unshift(query);
       this._historial = this._historial.splice(0, 10);
+      // Guardamos los cambios en el localStorage para darle persistencia
+      localStorage.setItem('historial', JSON.stringify(this._historial));
     }
 
     // Consumimos la api de giphy para obtener los datos de los gifs
