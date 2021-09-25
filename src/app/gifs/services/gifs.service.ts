@@ -39,12 +39,14 @@ export class GifsService {
       localStorage.setItem('historial', JSON.stringify(this._historial));
     }
 
+    // Creamos un objeto httpParams con los parametros de busqueda
     const params = new HttpParams()
       .set('api_key', this.apiKey)
       .set('q', query)
       .set('limit', '10');
 
     // Consumimos la api de giphy para obtener los datos de los gifs
+    // Le pasamos un objeto que contiene los params definidos arriba
     this.http.get<SearchGifsResponse>(`${this.giphyUrl}/search`, { params })
       .subscribe((response) => {
         this.resultados = response.data;

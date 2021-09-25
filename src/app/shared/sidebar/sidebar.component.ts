@@ -19,6 +19,8 @@ export class SidebarComponent implements OnInit {
   }
 
   buscar(item: string): void {
+    // Cuando el usuario pulsa en los elementos del sidebar
+    // llamamos a la api de bsuqueda con el titulo del elemento
     this.gifsService.buscarGifs(item);
   }
 
