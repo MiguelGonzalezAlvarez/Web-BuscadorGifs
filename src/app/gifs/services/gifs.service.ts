@@ -19,6 +19,7 @@ export class GifsService {
     // Con ! le estamos diciendo a angular que el getItem no nos retornara null nunca
     // Otra forma de hacerlo es con ?? para en caso de que sea null ponerle string vacio
     this._historial = JSON.parse(localStorage.getItem('historial')!) ?? [];
+    this.resultados = JSON.parse(localStorage.getItem('resultados')!) ?? [];
   }
 
   get historial() {
@@ -41,6 +42,7 @@ export class GifsService {
     this.http.get<SearchGifsResponse>(`https://api.giphy.com/v1/gifs/search?api_key=${this.apiKey}&q=${query}&limit=10`)
       .subscribe((response) => {
         this.resultados = response.data;
+        localStorage.setItem('resultados', JSON.stringify(this.resultados));
       });
 
 
